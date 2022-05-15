@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Пісні</string>
+    <string name="source_link">Матеріал взято з <a href="https://www.pisni.org.ua/">pisni.org.ua</a></string>
+    <string name="ukrainian_songs">Українські пісні</string>
+    <string name="author">Автор</string>
+
+</resources>

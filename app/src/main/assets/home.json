@@ -1,0 +1,26 @@
+[
+  {
+    "id": "patriotychni",
+    "title": "Патріотичні"
+  },
+  {
+    "id": "narodni",
+    "title": "Народні"
+  },
+  {
+    "id": "kozatski",
+    "title": "Козацькі"
+  },
+  {
+    "id": "striletski",
+    "title": "Січових стрільців"
+  },
+  {
+    "id": "povstanski",
+    "title": "Повстанські"
+  },
+  {
+    "id": "plastovi",
+    "title": "Пластові"
+  }
+]

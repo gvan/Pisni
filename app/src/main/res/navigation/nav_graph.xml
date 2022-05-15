@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/categoriesFragment">
+
+    <fragment
+        android:id="@+id/categoriesFragment"
+        android:name="ua.in.pisni.ui.categories.CategoriesFragment">
+
+        <action
+            android:id="@+id/action_categoriesFragment_to_songsFragment"
+            app:destination="@id/songsFragment"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/songsFragment"
+        android:name="ua.in.pisni.ui.songs.SongsFragment">
+
+        <action
+            android:id="@+id/action_songsFragment_to_songFragment"
+            app:destination="@id/songFragment"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/songFragment"
+        android:name="ua.in.pisni.ui.song.SongFragment"/>
+
+    <action
+        android:id="@+id/action_to_homeFragment"
+        app:destination="@id/categoriesFragment"
+        app:popUpTo="@id/nav_graph.xml"
+        app:popUpToInclusive="true"/>
+
+</navigation>

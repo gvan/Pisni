@@ -1,0 +1,14 @@
+package ua.in.pisni.data.repository;
+
+import java.util.List;
+
+import ua.in.pisni.data.model.Category;
+import ua.in.pisni.data.model.Song;
+
+public interface SongsRepository {
+
+    List<Category> getHomeCategories();
+
+    List<Song> getSongs(String categoryId);
+
+}

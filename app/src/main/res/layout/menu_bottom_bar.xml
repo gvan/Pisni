@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:weightSum="3"
+        android:background="@color/white">
+        
+        <LinearLayout
+            android:id="@+id/menu_home"
+            style="@style/BottomBarItem">
+
+            <ImageView
+                android:id="@+id/menu_home_icon"
+                style="@style/BottomBarIcon"
+                android:src="@drawable/home"/>
+
+            <TextView
+                android:id="@+id/menu_home_title"
+                style="@style/BottomBarText"/>
+
+        </LinearLayout>
+        
+    </LinearLayout>
+    
+</layout>
