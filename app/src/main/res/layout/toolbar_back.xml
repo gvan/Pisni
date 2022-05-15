@@ -15,11 +15,23 @@
 
         </FrameLayout>
 
+        <FrameLayout
+            android:id="@+id/share"
+            style="@style/ToolbarActionButton"
+            android:layout_alignParentEnd="true">
+
+            <ImageView
+                style="@style/ToolbarActionButtonIcon"
+                android:src="@drawable/ic_share"/>
+
+        </FrameLayout>
+
         <TextView
             android:id="@+id/title"
             style="@style/ToolbarTitle"
             android:layout_marginStart="4dp"
-            android:layout_toEndOf="@id/back"/>
+            android:layout_toEndOf="@id/back"
+            android:layout_toStartOf="@id/share"/>
 
     </RelativeLayout>
 

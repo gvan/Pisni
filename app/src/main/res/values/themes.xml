@@ -60,6 +60,26 @@
 
     </style>
 
+    <style name="ToolbarActionButton">
+
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:visibility">gone</item>
+
+    </style>
+
+    <style name="ToolbarActionButtonIcon">
+
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:tint">@color/white</item>
+        <item name="android:layout_gravity">center</item>
+
+    </style>
+
     <style name="ToolbarTitle">
 
         <item name="android:layout_width">wrap_content</item>

@@ -1,5 +1,6 @@
 package ua.in.pisni.ui.song;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -61,6 +62,14 @@ public class SongFragment extends BaseFragment {
             }
         });
 
+        binding.toolbar.share.setVisibility(View.VISIBLE);
+        binding.toolbar.share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewModel.onShareClicked();
+            }
+        });
+
         binding.srcLink.link.setText(R.string.source_link);
         binding.srcLink.link.setMovementMethod(LinkMovementMethod.getInstance());
     }
@@ -90,6 +99,16 @@ public class SongFragment extends BaseFragment {
                 } else {
                     binding.author.setVisibility(View.GONE);
                 }
+            }
+        });
+
+        viewModel.getShareLiveData().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, s);
+                startActivity(Intent.createChooser(intent, getString(R.string.share_song)));
             }
         });
 
