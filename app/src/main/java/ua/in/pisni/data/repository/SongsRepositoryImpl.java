@@ -31,6 +31,10 @@ public class SongsRepositoryImpl implements SongsRepository{
     public List<Category> getHomeCategories() {
         if(homeCategories.isEmpty()) {
             homeCategories.addAll(getItemsFromAssets(Category.class, HOME_JSON));
+
+            for(Category category : homeCategories) {
+                category.setSongs(getSongs(category.getId()));
+            }
         }
         return homeCategories;
     }

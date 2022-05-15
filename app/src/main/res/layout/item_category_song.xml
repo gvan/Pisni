@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="@dimen/category_card_width"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="@dimen/category_card_width"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text"
+            android:textSize="16sp"
+            android:maxLines="1"
+            app:fontFamily="@font/roboto_medium"/>
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="@dimen/category_card_width"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_blue"
+            android:textSize="16sp"
+            android:maxLines="2"
+            app:fontFamily="@font/roboto_regular"/>
+
+    </LinearLayout>
+
+</layout>

@@ -10,15 +10,18 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.List;
+import java.util.Map;
 
 import ua.in.pisni.R;
 import ua.in.pisni.data.model.Category;
+import ua.in.pisni.data.model.Song;
 import ua.in.pisni.databinding.FragmentCategoriesBinding;
 import ua.in.pisni.ui.base.BaseFragment;
 import ua.in.pisni.ui.categories.list.CategoriesAdapter;
@@ -57,6 +60,16 @@ public class CategoriesFragment extends BaseFragment {
                     public void onCategoryClick(Category category) {
                         openCategory(category.getId(), category.getTitle());
                     }
+
+                    @Override
+                    public void onSongClicked(Song song) {
+                        openSong(song);
+                    }
+
+                    @Override
+                    public void onSongOffsetChanged(String categoryId, Pair<Integer, Integer> offset) {
+                        viewModel.setPoemsOffsets(categoryId, offset);
+                    }
                 });
         binding.recycler.setAdapter(adapter);
 
@@ -65,6 +78,16 @@ public class CategoriesFragment extends BaseFragment {
     }
 
     private void setupViewModel() {
+
+        viewModel.getSongsOffsetsLiveData().observe(getViewLifecycleOwner(), new Observer<Map<String, Pair<Integer, Integer>>>() {
+            @Override
+            public void onChanged(Map<String, Pair<Integer, Integer>> stringPairMap) {
+                if(adapter != null) {
+                    adapter.setSongsOffsets(stringPairMap);
+                }
+            }
+        });
+
         viewModel.getCategoriesLiveData().observe(getViewLifecycleOwner(), new Observer<List<Category>>() {
             @Override
             public void onChanged(List<Category> categories) {
@@ -79,6 +102,15 @@ public class CategoriesFragment extends BaseFragment {
         arguments.putString(Const.TITLE, title);
         Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
                 .navigate(R.id.action_categoriesFragment_to_songsFragment, arguments);
+    }
+
+    private void openSong(Song song) {
+        Bundle arguments = new Bundle();
+        arguments.putString(Const.TITLE, song.getTitle());
+        arguments.putString(Const.SONG, song.getText());
+        arguments.putString(Const.AUTHOR, song.getAuthor());
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                .navigate(R.id.action_categoriesFragment_to_songFragment, arguments);
     }
 
 }
