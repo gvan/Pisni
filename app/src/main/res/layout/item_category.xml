@@ -33,7 +33,7 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentStart="true"
                 android:layout_toStartOf="@id/arrow_right_icon"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/text"
                 app:fontFamily="@font/roboto_medium"/>
 
