@@ -4,8 +4,9 @@ public interface Const {
 
     String CATEGORY_TYPE = "category_type";
     String SONG_ID = "song_id";
-    String SONG = "song";
     String TITLE = "title";
-    String AUTHOR = "author";
+
+    String SONGS_PREFERENCES = "songs_preferences";
+    String FAVORITE_SONGS = "favorite_songs";
 
 }

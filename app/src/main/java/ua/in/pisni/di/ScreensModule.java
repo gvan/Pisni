@@ -3,6 +3,7 @@ package ua.in.pisni.di;
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 import ua.in.pisni.ui.categories.CategoriesFragment;
+import ua.in.pisni.ui.favorites.FavoritesFragment;
 import ua.in.pisni.ui.song.SongFragment;
 import ua.in.pisni.ui.songs.SongsFragment;
 
@@ -17,5 +18,8 @@ public abstract class ScreensModule {
 
     @ContributesAndroidInjector
     abstract SongFragment bindSongFragment();
+
+    @ContributesAndroidInjector
+    abstract FavoritesFragment bindFavoritesFragment();
 
 }

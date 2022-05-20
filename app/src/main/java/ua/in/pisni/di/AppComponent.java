@@ -13,6 +13,7 @@ import ua.in.pisni.App;
         AndroidSupportInjectionModule.class,
         AppModule.class,
         RepositoryModule.class,
+        DataSourceModule.class,
         ViewModelModule.class,
         ScreensModule.class
 })

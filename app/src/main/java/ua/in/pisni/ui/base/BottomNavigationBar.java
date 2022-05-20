@@ -2,6 +2,7 @@ package ua.in.pisni.ui.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
@@ -44,7 +45,38 @@ public class BottomNavigationBar extends FrameLayout {
                 Navigation.findNavController(activity, R.id.nav_host_fragment)
                         .navigate(R.id.action_to_homeFragment);
             });
+
+            binding.menuFavorites.setOnClickListener(v -> {
+                Navigation.findNavController(activity, R.id.nav_host_fragment)
+                        .navigate(R.id.action_to_favoritesFragment);
+            });
         }
+    }
+
+    public void setHomeSelected() {
+        resetBottomBar();
+
+        binding.menuHomeIcon.setImageResource(R.drawable.ic_home_filled);
+        binding.menuHomeIcon.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent),
+                PorterDuff.Mode.SRC_IN);
+    }
+
+    public void setFavoritesSelected() {
+        resetBottomBar();
+
+        binding.menuFavoritesIcon.setImageResource(R.drawable.ic_star_filled);
+        binding.menuFavoritesIcon.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent),
+                PorterDuff.Mode.SRC_IN);
+    }
+
+    public void resetBottomBar() {
+        binding.menuHomeIcon.setImageResource(R.drawable.ic_home_empty);
+        binding.menuHomeIcon.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray_blue),
+                PorterDuff.Mode.SRC_IN);
+
+        binding.menuFavoritesIcon.setImageResource(R.drawable.ic_star_empty);
+        binding.menuFavoritesIcon.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray_blue),
+                PorterDuff.Mode.SRC_IN);
     }
 
 }

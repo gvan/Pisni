@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ua.in.pisni.data.model.Categories;
 import ua.in.pisni.data.model.Category;
@@ -41,7 +43,42 @@ public class SongsRepositoryImpl implements SongsRepository{
 
     @Override
     public List<Song> getSongs(String categoryId) {
-        List<Song> songs = getItemsFromAssets(Song.class, String.format("%s.json", categoryId));
+        List<Song> songs = null;
+        for(Category category : homeCategories) {
+            if(category.getId() == categoryId) {
+                songs = category.getSongs();
+            }
+        }
+        if(songs == null) {
+            songs = getItemsFromAssets(Song.class, String.format("%s.json", categoryId));
+        }
+        return songs;
+    }
+
+    @Override
+    public Song getSong(int songId) {
+        for(Category category : homeCategories) {
+            for(Song song : category.getSongs()) {
+                if(song.getId() == songId) {
+                    return song;
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<Song> getSongsByIds(List<Integer> ids) {
+        List<Song> songs = new ArrayList<>();
+        for(Category category : homeCategories) {
+            for(Song song : category.getSongs()) {
+                for(Integer id : ids) {
+                    if(song.getId() == id) {
+                        songs.add(song);
+                    }
+                }
+            }
+        }
         return songs;
     }
 

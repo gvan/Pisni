@@ -4,5 +4,7 @@
     <string name="ukrainian_songs">Українські пісні</string>
     <string name="author">Автор</string>
     <string name="share_song">Поділитись піснею</string>
+    <string name="home">Домівка</string>
+    <string name="favorites">Улюблені</string>
 
 </resources>

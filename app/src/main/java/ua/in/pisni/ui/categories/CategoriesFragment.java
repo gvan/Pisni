@@ -52,6 +52,9 @@ public class CategoriesFragment extends BaseFragment {
         binding.toolbar.title.setText(R.string.ukrainian_songs);
         binding.toolbar.title.setPadding(getResources().getDimensionPixelOffset(R.dimen.size_12), 0, 0, 0);
         binding.toolbar.back.setVisibility(View.GONE);
+        binding.toolbar.actions.setVisibility(View.GONE);
+
+        binding.bottomBar.setHomeSelected();
 
         binding.recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter = new CategoriesAdapter(new CategoriesAdapter.CategoryDiffCallback(),
@@ -106,9 +109,7 @@ public class CategoriesFragment extends BaseFragment {
 
     private void openSong(Song song) {
         Bundle arguments = new Bundle();
-        arguments.putString(Const.TITLE, song.getTitle());
-        arguments.putString(Const.SONG, song.getText());
-        arguments.putString(Const.AUTHOR, song.getAuthor());
+        arguments.putInt(Const.SONG_ID, song.getId());
         Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
                 .navigate(R.id.action_categoriesFragment_to_songFragment, arguments);
     }

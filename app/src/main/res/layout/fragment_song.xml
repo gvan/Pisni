@@ -6,16 +6,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include android:id="@+id/src_link"
+        <LinearLayout
+            android:id="@+id/bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            layout="@layout/src_link"/>
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true">
+
+            <include android:id="@+id/src_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/src_link"/>
+
+        </LinearLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/src_link">
+            android:layout_above="@id/bottom">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"

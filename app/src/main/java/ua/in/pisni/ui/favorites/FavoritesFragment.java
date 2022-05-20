@@ -1,7 +1,8 @@
-package ua.in.pisni.ui.songs;
+package ua.in.pisni.ui.favorites;
 
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,18 +23,16 @@ import ua.in.pisni.ui.base.BaseFragment;
 import ua.in.pisni.ui.songs.list.SongsAdapter;
 import ua.in.pisni.utils.Const;
 
-public class SongsFragment extends BaseFragment {
+public class FavoritesFragment extends BaseFragment {
 
-    private SongsViewModel viewModel;
+    private FavoritesViewModel viewModel;
     private FragmentCategoriesBinding binding;
     private SongsAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(this, viewModelFactory).get(SongsViewModel.class);
-        parseArguments();
-        viewModel.init();
+        viewModel = new ViewModelProvider(this, viewModelFactory).get(FavoritesViewModel.class);
     }
 
     @Nullable
@@ -42,34 +41,27 @@ public class SongsFragment extends BaseFragment {
         binding = FragmentCategoriesBinding.inflate(inflater, container, false);
         setupUI();
         setupViewModel();
+        viewModel.initData();
 
         return binding.getRoot();
     }
 
-    private void parseArguments() {
-        if(getArguments() != null) {
-            String categoryId = getArguments().getString(Const.CATEGORY_TYPE, "");
-            String title = getArguments().getString(Const.TITLE, "");
-            viewModel.setCategoryId(categoryId);
-            viewModel.setTitle(title);
-        }
-    }
-
     private void setupUI(){
-        binding.toolbar.back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigateUp();
-            }
-        });
+        binding.toolbar.back.setVisibility(View.GONE);
+        binding.toolbar.actions.setVisibility(View.GONE);
+        binding.toolbar.title.setText(R.string.favorites);
+        binding.toolbar.title.setPadding(getResources().getDimensionPixelOffset(R.dimen.size_12), 0, 0, 0);
 
-        binding.bottomBar.setHomeSelected();
+        binding.bottomBar.setFavoritesSelected();
 
         binding.recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter = new SongsAdapter(new SongsAdapter.SongDiffUtil(), new SongsAdapter.SongListener() {
             @Override
             public void onSongClicked(Song song) {
-                openSong(song.getId());
+                Bundle bundle = new Bundle();
+                bundle.putInt(Const.SONG_ID, song.getId());
+                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                        .navigate(R.id.action_favoritesFragment_to_songFragment, bundle);
             }
         });
         binding.recycler.setAdapter(adapter);
@@ -85,20 +77,6 @@ public class SongsFragment extends BaseFragment {
                 adapter.submitList(songs);
             }
         });
-
-        viewModel.getTitleLiveData().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                binding.toolbar.title.setText(s);
-            }
-        });
-    }
-
-    private void openSong(int songId) {
-        Bundle arguments = new Bundle();
-        arguments.putInt(Const.SONG_ID, songId);
-        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
-                .navigate(R.id.action_songsFragment_to_songFragment, arguments);
     }
 
 }

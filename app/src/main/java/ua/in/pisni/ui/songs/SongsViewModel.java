@@ -23,16 +23,16 @@ public class SongsViewModel extends ViewModel {
         this.songsRepository = songsRepository;
     }
 
+    public void init() {
+        songsLiveData.setValue(songsRepository.getSongs(categoryId));
+    }
+
     public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
     }
 
     public void setTitle(String title) {
         titleLiveData.setValue(title);
-    }
-
-    public void init() {
-        songsLiveData.setValue(songsRepository.getSongs(categoryId));
     }
 
     public MutableLiveData<List<Song>> getSongsLiveData() {

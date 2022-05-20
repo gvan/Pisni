@@ -5,56 +5,69 @@ import androidx.lifecycle.ViewModel;
 
 import javax.inject.Inject;
 
+import ua.in.pisni.data.model.Song;
+import ua.in.pisni.data.repository.SongsRepository;
+import ua.in.pisni.data.source.preferences.SongsPreferences;
 import ua.in.pisni.utils.SingleLiveEvent;
 
 public class SongViewModel extends ViewModel {
 
-    private final MutableLiveData<String> titleLiveData = new MutableLiveData<>();
-    private final MutableLiveData<String> songLiveData = new MutableLiveData<>();
-    private final MutableLiveData<String> authorLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Song> songLiveData = new MutableLiveData<>();
     private final MutableLiveData<String> shareLiveData = new SingleLiveEvent<>();
+    private final MutableLiveData<Boolean> favoriteLiveData = new SingleLiveEvent<>();
+
+    private SongsRepository songsRepository;
+    private SongsPreferences songsPreferences;
+    private int songId;
 
     @Inject
-    public SongViewModel() {
+    public SongViewModel(SongsRepository songsRepository, SongsPreferences songsPreferences) {
+        this.songsRepository = songsRepository;
+        this.songsPreferences = songsPreferences;
+    }
+
+    public void init(){
+        Song song = songsRepository.getSong(songId);
+        songLiveData.setValue(song);
+        favoriteLiveData.setValue(songsPreferences.isFavoriteSong(songId));
     }
 
     public void onShareClicked(){
-        String title = titleLiveData.getValue();
-        String song = songLiveData.getValue();
-        String author = authorLiveData.getValue();
+        Song song = songsRepository.getSong(songId);
+        String title = song.getTitle();
+        String songText = song.getText();
+        String author = song.getAuthor();
 
-        String sharedText = String.format("%s\n\n%s", title, song);
+        String sharedText = String.format("%s\n\n%s", title, songText);
         if(author != null && !"".equals(author)) {
             sharedText = String.format("%s\n\nАвтор: %s", sharedText, author);
         }
         shareLiveData.setValue(sharedText);
     }
 
-    public void setTitle(String title) {
-        titleLiveData.setValue(title);
+    public void onFavoriteClicked(){
+        if(songsPreferences.isFavoriteSong(songId)) {
+            songsPreferences.removeFavoriteSong(songId);
+            favoriteLiveData.setValue(false);
+        } else {
+            songsPreferences.addFavoriteSong(songId);
+            favoriteLiveData.setValue(true);
+        }
     }
 
-    public void setSong(String song) {
-        songLiveData.setValue(song);
+    public void setSongId(int songId) {
+        this.songId = songId;
     }
 
-    public void setAuthor(String author) {
-        authorLiveData.setValue(author);
-    }
-
-    public MutableLiveData<String> getTitleLiveData() {
-        return titleLiveData;
-    }
-
-    public MutableLiveData<String> getSongLiveData() {
+    public MutableLiveData<Song> getSongLiveData() {
         return songLiveData;
-    }
-
-    public MutableLiveData<String> getAuthorLiveData() {
-        return authorLiveData;
     }
 
     public MutableLiveData<String> getShareLiveData() {
         return shareLiveData;
+    }
+
+    public MutableLiveData<Boolean> getFavoriteLiveData() {
+        return favoriteLiveData;
     }
 }

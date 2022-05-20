@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import ua.in.pisni.R;
+import ua.in.pisni.data.model.Song;
 import ua.in.pisni.databinding.FragmentSongBinding;
 import ua.in.pisni.ui.base.BaseFragment;
 import ua.in.pisni.utils.Const;
@@ -30,6 +31,7 @@ public class SongFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this, viewModelFactory).get(SongViewModel.class);
         parseArguments();
+        viewModel.init();
     }
 
     @Nullable
@@ -44,13 +46,9 @@ public class SongFragment extends BaseFragment {
 
     private void parseArguments() {
         if(getArguments() != null) {
-            String song = getArguments().getString(Const.SONG);
-            String title = getArguments().getString(Const.TITLE);
-            String author = getArguments().getString(Const.AUTHOR);
-
-            viewModel.setSong(song);
-            viewModel.setTitle(title);
-            viewModel.setAuthor(author);
+            int songId = getArguments().getInt(Const.SONG_ID);
+            Log.d("MyCustomLog", String.format("songId %s", songId));
+            viewModel.setSongId(songId);
         }
     }
 
@@ -69,6 +67,13 @@ public class SongFragment extends BaseFragment {
                 viewModel.onShareClicked();
             }
         });
+        binding.toolbar.favorite.setVisibility(View.VISIBLE);
+        binding.toolbar.favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewModel.onFavoriteClicked();
+            }
+        });
 
         binding.srcLink.link.setText(R.string.source_link);
         binding.srcLink.link.setMovementMethod(LinkMovementMethod.getInstance());
@@ -76,26 +81,16 @@ public class SongFragment extends BaseFragment {
 
     private void setupViewModel(){
 
-        viewModel.getTitleLiveData().observe(getViewLifecycleOwner(), new Observer<String>() {
+        viewModel.getSongLiveData().observe(getViewLifecycleOwner(), new Observer<Song>() {
             @Override
-            public void onChanged(String s) {
-                binding.toolbar.title.setText(s);
-            }
-        });
+            public void onChanged(Song song) {
+                binding.toolbar.title.setText(song.getTitle());
+                binding.song.setText(song.getText());
 
-        viewModel.getSongLiveData().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                binding.song.setText(s);
-            }
-        });
-
-        viewModel.getAuthorLiveData().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                if(s != null && !s.isEmpty()) {
+                String author = song.getAuthor();
+                if(author != null && !author.isEmpty()) {
                     binding.author.setVisibility(View.VISIBLE);
-                    binding.author.setText(String.format("%s: %s", getString(R.string.author), s));
+                    binding.author.setText(String.format("%s: %s", getString(R.string.author), author));
                 } else {
                     binding.author.setVisibility(View.GONE);
                 }
@@ -109,6 +104,17 @@ public class SongFragment extends BaseFragment {
                 intent.setType("text/plain");
                 intent.putExtra(Intent.EXTRA_TEXT, s);
                 startActivity(Intent.createChooser(intent, getString(R.string.share_song)));
+            }
+        });
+
+        viewModel.getFavoriteLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean favorite) {
+                if(favorite) {
+                    binding.toolbar.favoriteIcon.setImageResource(R.drawable.ic_star_filled);
+                } else {
+                    binding.toolbar.favoriteIcon.setImageResource(R.drawable.ic_star_empty);
+                }
             }
         });
 

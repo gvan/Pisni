@@ -11,4 +11,8 @@ public interface SongsRepository {
 
     List<Song> getSongs(String categoryId);
 
+    Song getSong(int songId);
+
+    List<Song> getSongsByIds(List<Integer> ids);
+
 }

@@ -37,4 +37,20 @@
         app:popUpTo="@id/nav_graph.xml"
         app:popUpToInclusive="true"/>
 
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="ua.in.pisni.ui.favorites.FavoritesFragment">
+
+        <action
+            android:id="@+id/action_favoritesFragment_to_songFragment"
+            app:destination="@id/songFragment"/>
+
+    </fragment>
+
+    <action
+        android:id="@+id/action_to_favoritesFragment"
+        app:destination="@id/favoritesFragment"
+        app:popUpTo="@id/nav_graph.xml"
+        app:popUpToInclusive="true"/>
+
 </navigation>

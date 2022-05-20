@@ -18,6 +18,12 @@
             <include android:id="@+id/src_link"
                 layout="@layout/src_link"/>
 
+            <ua.in.pisni.ui.base.BottomNavigationBar
+                android:id="@+id/bottom_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="4dp"/>
+
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
