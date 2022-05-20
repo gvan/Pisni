@@ -2,9 +2,14 @@ package ua.in.pisni.data.model;
 
 public class Song {
 
+    private int id;
     private String title;
     private String text;
     private String author;
+
+    public int getId() {
+        return id;
+    }
 
     public String getTitle() {
         return title;
