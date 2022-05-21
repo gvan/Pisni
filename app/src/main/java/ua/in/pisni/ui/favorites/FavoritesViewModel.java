@@ -13,10 +13,10 @@ import ua.in.pisni.data.source.preferences.SongsPreferences;
 
 public class FavoritesViewModel extends ViewModel {
 
-    private SongsRepository songsRepository;
-    private SongsPreferences songsPreferences;
+    private final SongsRepository songsRepository;
+    private final SongsPreferences songsPreferences;
 
-    private MutableLiveData<List<Song>> songsLiveData = new MutableLiveData<>();
+    private final MutableLiveData<List<Song>> songsLiveData = new MutableLiveData<>();
 
     @Inject
     public FavoritesViewModel(SongsRepository songsRepository, SongsPreferences songsPreferences) {
