@@ -50,9 +50,17 @@ public class CategoriesFragment extends BaseFragment {
 
     private void setupUI() {
         binding.toolbar.title.setText(R.string.ukrainian_songs);
-        binding.toolbar.title.setPadding(getResources().getDimensionPixelOffset(R.dimen.size_12), 0, 0, 0);
-        binding.toolbar.back.setVisibility(View.GONE);
-        binding.toolbar.actions.setVisibility(View.GONE);
+        binding.toolbar.back.setPadding(getResources().getDimensionPixelOffset(R.dimen.size_12), 0, 0, 0);
+        binding.toolbar.backIcon.setVisibility(View.GONE);
+
+        binding.toolbar.search.setVisibility(View.VISIBLE);
+        binding.toolbar.search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                        .navigate(R.id.action_categoriesFragment_to_searchFragment);
+            }
+        });
 
         binding.bottomBar.setHomeSelected();
 

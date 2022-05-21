@@ -11,6 +11,7 @@
             style="@style/ToolbarBack">
 
             <ImageView
+                android:id="@+id/back_icon"
                 style="@style/ToolbarBackIcon"/>
 
         </FrameLayout>
@@ -22,6 +23,17 @@
             android:orientation="horizontal"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true">
+
+            <FrameLayout
+                android:id="@+id/search"
+                style="@style/ToolbarActionButton">
+
+                <ImageView
+                    android:id="@+id/search_icon"
+                    style="@style/ToolbarActionButtonIcon"
+                    android:src="@drawable/ic_search"/>
+
+            </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/favorite"

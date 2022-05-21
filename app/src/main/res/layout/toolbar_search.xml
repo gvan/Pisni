@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolbar"
+        style="@style/Toolbar">
+
+        <FrameLayout
+            android:id="@+id/back"
+            style="@style/ToolbarBack">
+
+            <ImageView
+                android:id="@+id/back_icon"
+                style="@style/ToolbarBackIcon"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/search"
+            style="@style/ToolbarActionButton"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true">
+
+            <ImageView
+                android:id="@+id/search_icon"
+                style="@style/ToolbarActionButtonIcon"
+                android:src="@drawable/ic_search"/>
+
+        </FrameLayout>
+
+        <EditText
+            android:id="@+id/search_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/back"
+            android:layout_toStartOf="@id/search"
+            android:hint="@string/enter_words_from_song"
+            android:background="@android:color/transparent"
+            android:textCursorDrawable="@null"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray_blue"
+            android:maxLines="1"
+            android:inputType="text"
+            android:imeOptions="actionSearch"/>
+
+    </RelativeLayout>
+
+</layout>
+

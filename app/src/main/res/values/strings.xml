@@ -6,5 +6,6 @@
     <string name="share_song">Поділитись піснею</string>
     <string name="home">Домівка</string>
     <string name="favorites">Улюблені</string>
+    <string name="enter_words_from_song">Введіть слова з пісні</string>
 
 </resources>

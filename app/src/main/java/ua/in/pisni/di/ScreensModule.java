@@ -4,6 +4,7 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 import ua.in.pisni.ui.categories.CategoriesFragment;
 import ua.in.pisni.ui.favorites.FavoritesFragment;
+import ua.in.pisni.ui.search.SearchFragment;
 import ua.in.pisni.ui.song.SongFragment;
 import ua.in.pisni.ui.songs.SongsFragment;
 
@@ -21,5 +22,8 @@ public abstract class ScreensModule {
 
     @ContributesAndroidInjector
     abstract FavoritesFragment bindFavoritesFragment();
+
+    @ContributesAndroidInjector
+    abstract SearchFragment bindSearchFragment();
 
 }
