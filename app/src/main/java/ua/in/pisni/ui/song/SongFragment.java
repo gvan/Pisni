@@ -1,6 +1,7 @@
 package ua.in.pisni.ui.song;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -75,6 +76,13 @@ public class SongFragment extends BaseFragment {
             }
         });
 
+        binding.play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onPlayClicked();
+            }
+        });
+
         binding.srcLink.link.setText(R.string.source_link);
         binding.srcLink.link.setMovementMethod(LinkMovementMethod.getInstance());
     }
@@ -118,6 +126,11 @@ public class SongFragment extends BaseFragment {
             }
         });
 
+    }
+
+    private void onPlayClicked() {
+        MediaPlayer mediaPlayer = MediaPlayer.create(getContext(), R.raw.shche_ne_vmerla_ukrayina);
+        mediaPlayer.start();
     }
 
 }
