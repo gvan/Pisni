@@ -4,7 +4,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:weightSum="2"
+        android:weightSum="3"
         android:background="@color/white">
         
         <LinearLayout
@@ -20,6 +20,22 @@
                 android:id="@+id/menu_home_title"
                 style="@style/BottomBarText"
                 android:text="@string/home"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/menu_authors"
+            style="@style/BottomBarItem">
+
+            <ImageView
+                android:id="@+id/menu_authors_icon"
+                style="@style/BottomBarIcon"
+                android:src="@drawable/ic_user_filled"/>
+
+            <TextView
+                android:id="@+id/menu_authors_title"
+                style="@style/BottomBarText"
+                android:text="@string/authors_singer"/>
 
         </LinearLayout>
 

@@ -1,9 +1,8 @@
 package ua.in.pisni.ui.categories;
 
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.telephony.RadioAccessSpecifier;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,16 +32,19 @@ public class CategoriesFragment extends BaseFragment {
     private FragmentCategoriesBinding binding;
     private CategoriesAdapter adapter;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        viewModel = new ViewModelProvider(this, viewModelFactory).get(CategoriesViewModel.class);
+        parseArguments();
+        viewModel.init();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-
-        viewModel = new ViewModelProvider(this, viewModelFactory).get(CategoriesViewModel.class);
-        viewModel.init();
-        setupViewModel();
-
         binding = FragmentCategoriesBinding.inflate(inflater, container, false);
+        setupViewModel();
         setupUI();
 
         return binding.getRoot();
@@ -88,6 +90,13 @@ public class CategoriesFragment extends BaseFragment {
         binding.srcLink.link.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
+    private void parseArguments() {
+        if(getArguments() != null) {
+            String chapterId = getArguments().getString(Const.CHAPTER_ID, "");
+            viewModel.setChapterId(chapterId);
+        }
+    }
+
     private void setupViewModel() {
 
         viewModel.getSongsOffsetsLiveData().observe(getViewLifecycleOwner(), new Observer<Map<String, Pair<Integer, Integer>>>() {
@@ -105,11 +114,26 @@ public class CategoriesFragment extends BaseFragment {
                 adapter.submitList(categories);
             }
         });
+
+        viewModel.getChapterIdLiveData().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                switch (s) {
+                    case Const.AUTHORS_CHAPTER:
+                        binding.bottomBar.setAuthorsSelected();
+                        break;
+                    default:
+                        binding.bottomBar.setHomeSelected();
+                        break;
+                }
+            }
+        });
+
     }
 
     private void openCategory(String categoryId, String title) {
         Bundle arguments = new Bundle();
-        arguments.putString(Const.CATEGORY_TYPE, categoryId);
+        arguments.putString(Const.CATEGORY_ID, categoryId);
         arguments.putString(Const.TITLE, title);
         Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
                 .navigate(R.id.action_categoriesFragment_to_songsFragment, arguments);
