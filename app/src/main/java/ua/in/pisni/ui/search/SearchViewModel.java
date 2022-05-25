@@ -29,6 +29,10 @@ public class SearchViewModel extends ViewModel {
         for(Category category : categories) {
             songs.addAll(category.getSongs());
         }
+        List<Category> authorsCategories = songsRepository.getAuthorsCategories();
+        for(Category category : authorsCategories) {
+            songs.addAll(category.getSongs());
+        }
     }
 
     public void searchForText(String text) {
