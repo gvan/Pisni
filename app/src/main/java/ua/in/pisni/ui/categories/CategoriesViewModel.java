@@ -1,5 +1,7 @@
 package ua.in.pisni.ui.categories;
 
+import android.util.Log;
+
 import androidx.core.util.Pair;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -12,6 +14,7 @@ import javax.inject.Inject;
 
 import ua.in.pisni.data.model.Category;
 import ua.in.pisni.data.repository.SongsRepository;
+import ua.in.pisni.utils.Const;
 import ua.in.pisni.utils.SingleLiveEvent;
 
 public class CategoriesViewModel extends ViewModel {
@@ -19,8 +22,11 @@ public class CategoriesViewModel extends ViewModel {
     private SongsRepository songsRepository;
     private final Map<String, Pair<Integer, Integer>> songsOffsets = new HashMap<>();
 
-    private MutableLiveData<List<Category>> categoriesLiveData = new MutableLiveData<>();
-    private MutableLiveData<Map<String, Pair<Integer, Integer>>> songsOffsetsLiveData = new SingleLiveEvent<>();
+    private final MutableLiveData<List<Category>> categoriesLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Map<String, Pair<Integer, Integer>>> songsOffsetsLiveData = new MutableLiveData<>();
+    private final MutableLiveData<String> chapterIdLiveData = new MutableLiveData<>();
+
+    private String chapterId = "";
 
     @Inject
     public CategoriesViewModel(SongsRepository songsRepository) {
@@ -29,7 +35,21 @@ public class CategoriesViewModel extends ViewModel {
 
     public void init() {
         songsOffsetsLiveData.setValue(songsOffsets);
-        categoriesLiveData.setValue(songsRepository.getHomeCategories());
+        switch (chapterId) {
+            case Const.AUTHORS_CHAPTER: {
+                categoriesLiveData.setValue(songsRepository.getAuthorsCategories());
+                break;
+            }
+            default: {
+                categoriesLiveData.setValue(songsRepository.getHomeCategories());
+                break;
+            }
+        }
+    }
+
+    public void setChapterId(String chapterId) {
+        this.chapterId = chapterId;
+        chapterIdLiveData.setValue(chapterId);
     }
 
     public void setPoemsOffsets(String categoryId, Pair<Integer, Integer> offset) {
@@ -42,5 +62,9 @@ public class CategoriesViewModel extends ViewModel {
 
     public MutableLiveData<Map<String, Pair<Integer, Integer>>> getSongsOffsetsLiveData() {
         return songsOffsetsLiveData;
+    }
+
+    public MutableLiveData<String> getChapterIdLiveData() {
+        return chapterIdLiveData;
     }
 }

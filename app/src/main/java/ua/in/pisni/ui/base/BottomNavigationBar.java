@@ -3,6 +3,7 @@ package ua.in.pisni.ui.base;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
@@ -14,6 +15,7 @@ import androidx.navigation.Navigation;
 
 import ua.in.pisni.R;
 import ua.in.pisni.databinding.MenuBottomBarBinding;
+import ua.in.pisni.utils.Const;
 
 public class BottomNavigationBar extends FrameLayout {
 
@@ -42,8 +44,17 @@ public class BottomNavigationBar extends FrameLayout {
         if(context instanceof Activity) {
             final Activity activity = (Activity) context;
             binding.menuHome.setOnClickListener(v -> {
+                Bundle arguments = new Bundle();
+                arguments.putString(Const.CHAPTER_ID, Const.CATEGORIES_CHAPTER);
                 Navigation.findNavController(activity, R.id.nav_host_fragment)
-                        .navigate(R.id.action_to_homeFragment);
+                        .navigate(R.id.action_to_homeFragment, arguments);
+            });
+
+            binding.menuAuthors.setOnClickListener(v -> {
+                Bundle arguments = new Bundle();
+                arguments.putString(Const.CHAPTER_ID, Const.AUTHORS_CHAPTER);
+                Navigation.findNavController(activity, R.id.nav_host_fragment)
+                        .navigate(R.id.action_to_homeFragment, arguments);
             });
 
             binding.menuFavorites.setOnClickListener(v -> {
@@ -61,6 +72,14 @@ public class BottomNavigationBar extends FrameLayout {
                 PorterDuff.Mode.SRC_IN);
     }
 
+    public void setAuthorsSelected() {
+        resetBottomBar();
+
+        binding.menuAuthorsIcon.setImageResource(R.drawable.ic_user_filled);
+        binding.menuAuthorsIcon.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent),
+                PorterDuff.Mode.SRC_IN);
+    }
+
     public void setFavoritesSelected() {
         resetBottomBar();
 
@@ -72,6 +91,10 @@ public class BottomNavigationBar extends FrameLayout {
     public void resetBottomBar() {
         binding.menuHomeIcon.setImageResource(R.drawable.ic_home_empty);
         binding.menuHomeIcon.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray_blue),
+                PorterDuff.Mode.SRC_IN);
+
+        binding.menuAuthorsIcon.setImageResource(R.drawable.ic_user_empty);
+        binding.menuAuthorsIcon.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray_blue),
                 PorterDuff.Mode.SRC_IN);
 
         binding.menuFavoritesIcon.setImageResource(R.drawable.ic_star_empty);

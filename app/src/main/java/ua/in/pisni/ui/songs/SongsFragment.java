@@ -48,7 +48,7 @@ public class SongsFragment extends BaseFragment {
 
     private void parseArguments() {
         if(getArguments() != null) {
-            String categoryId = getArguments().getString(Const.CATEGORY_TYPE, "");
+            String categoryId = getArguments().getString(Const.CATEGORY_ID, "");
             String title = getArguments().getString(Const.TITLE, "");
             viewModel.setCategoryId(categoryId);
             viewModel.setTitle(title);

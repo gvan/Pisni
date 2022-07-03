@@ -9,6 +9,8 @@ public interface SongsRepository {
 
     List<Category> getHomeCategories();
 
+    List<Category> getAuthorsCategories();
+
     List<Song> getSongs(String categoryId);
 
     Song getSong(int songId);

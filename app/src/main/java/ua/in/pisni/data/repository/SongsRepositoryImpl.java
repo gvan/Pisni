@@ -19,18 +19,27 @@ import ua.in.pisni.data.model.Song;
 public class SongsRepositoryImpl implements SongsRepository{
 
     private final String HOME_JSON = "home.json";
+    private final String AUTHORS_JSON = "authors.json";
 
     private Context context;
 
     private final ArrayList<Category> homeCategories = new ArrayList<>();
+    private final ArrayList<Category> authorsCategories = new ArrayList<>();
 
     public SongsRepositoryImpl(Context context) {
         this.context = context;
+        initHomeCategories();
+        initAuthorsCategories();
     }
 
 
     @Override
     public List<Category> getHomeCategories() {
+        initHomeCategories();
+        return homeCategories;
+    }
+
+    private void initHomeCategories() {
         if(homeCategories.isEmpty()) {
             homeCategories.addAll(getItemsFromAssets(Category.class, HOME_JSON));
 
@@ -38,13 +47,34 @@ public class SongsRepositoryImpl implements SongsRepository{
                 category.setSongs(getSongs(category.getId()));
             }
         }
-        return homeCategories;
     }
+
+    @Override
+    public List<Category> getAuthorsCategories() {
+        initAuthorsCategories();
+        return authorsCategories;
+    }
+
+    private void initAuthorsCategories() {
+        if(authorsCategories.isEmpty()) {
+            authorsCategories.addAll(getItemsFromAssets(Category.class, AUTHORS_JSON));
+
+            for(Category category : authorsCategories) {
+                category.setSongs(getSongs(category.getId()));
+            }
+        }
+    }
+
 
     @Override
     public List<Song> getSongs(String categoryId) {
         List<Song> songs = null;
         for(Category category : homeCategories) {
+            if(category.getId() == categoryId) {
+                songs = category.getSongs();
+            }
+        }
+        for(Category category : authorsCategories) {
             if(category.getId() == categoryId) {
                 songs = category.getSongs();
             }
@@ -64,6 +94,13 @@ public class SongsRepositoryImpl implements SongsRepository{
                 }
             }
         }
+        for(Category category : authorsCategories) {
+            for(Song song : category.getSongs()) {
+                if(song.getId() == songId) {
+                    return song;
+                }
+            }
+        }
         return null;
     }
 
@@ -71,6 +108,16 @@ public class SongsRepositoryImpl implements SongsRepository{
     public List<Song> getSongsByIds(List<Integer> ids) {
         List<Song> songs = new ArrayList<>();
         for(Category category : homeCategories) {
+            for(Song song : category.getSongs()) {
+                for(Integer id : ids) {
+                    if(song.getId() == id) {
+                        songs.add(song);
+                    }
+                }
+            }
+        }
+
+        for(Category category : authorsCategories) {
             for(Song song : category.getSongs()) {
                 for(Integer id : ids) {
                     if(song.getId() == id) {
