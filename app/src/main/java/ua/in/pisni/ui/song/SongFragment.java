@@ -27,6 +27,8 @@ public class SongFragment extends BaseFragment {
     private SongViewModel viewModel;
     private FragmentSongBinding binding;
 
+    private MediaPlayer mediaPlayer;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +45,15 @@ public class SongFragment extends BaseFragment {
         setupUI();
         setupViewModel();
         return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer = null;
+        }
     }
 
     private void parseArguments() {
@@ -79,7 +90,7 @@ public class SongFragment extends BaseFragment {
         binding.play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onPlayClicked();
+                viewModel.onPlayClicked();
             }
         });
 
@@ -126,11 +137,25 @@ public class SongFragment extends BaseFragment {
             }
         });
 
-    }
+        viewModel.getPlayAudioLiveData().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                int identifier = getResources().getIdentifier(s, "raw",
+                        requireActivity().getPackageName());
+                mediaPlayer = MediaPlayer.create(getContext(), identifier);
+                mediaPlayer.start();
+            }
+        });
 
-    private void onPlayClicked() {
-        MediaPlayer mediaPlayer = MediaPlayer.create(getContext(), R.raw.shche_ne_vmerla_ukrayina);
-        mediaPlayer.start();
+        viewModel.getShowPlayAudioLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean show) {
+                if(show) {
+                    binding.audioPlayer.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
     }
 
 }

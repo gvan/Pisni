@@ -1,5 +1,7 @@
 package ua.in.pisni.ui.song;
 
+import android.text.TextUtils;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -15,6 +17,8 @@ public class SongViewModel extends ViewModel {
     private final MutableLiveData<Song> songLiveData = new MutableLiveData<>();
     private final MutableLiveData<String> shareLiveData = new SingleLiveEvent<>();
     private final MutableLiveData<Boolean> favoriteLiveData = new SingleLiveEvent<>();
+    private final MutableLiveData<Boolean> showPlayAudioLiveData = new SingleLiveEvent<>();
+    private final MutableLiveData<String> playAudioLiveData = new SingleLiveEvent<>();
 
     private SongsRepository songsRepository;
     private SongsPreferences songsPreferences;
@@ -30,6 +34,10 @@ public class SongViewModel extends ViewModel {
         Song song = songsRepository.getSong(songId);
         songLiveData.setValue(song);
         favoriteLiveData.setValue(songsPreferences.isFavoriteSong(songId));
+
+        if(!TextUtils.isEmpty(song.getAudio_file_name())) {
+            showPlayAudioLiveData.setValue(true);
+        }
     }
 
     public void onShareClicked(){
@@ -55,6 +63,13 @@ public class SongViewModel extends ViewModel {
         }
     }
 
+    public void onPlayClicked() {
+        Song song = songsRepository.getSong(songId);
+        if(song.getAudio_file_name() != null) {
+            playAudioLiveData.setValue(song.getAudio_file_name());
+        }
+    }
+
     public void setSongId(int songId) {
         this.songId = songId;
     }
@@ -69,5 +84,13 @@ public class SongViewModel extends ViewModel {
 
     public MutableLiveData<Boolean> getFavoriteLiveData() {
         return favoriteLiveData;
+    }
+
+    public MutableLiveData<String> getPlayAudioLiveData() {
+        return playAudioLiveData;
+    }
+
+    public MutableLiveData<Boolean> getShowPlayAudioLiveData() {
+        return showPlayAudioLiveData;
     }
 }

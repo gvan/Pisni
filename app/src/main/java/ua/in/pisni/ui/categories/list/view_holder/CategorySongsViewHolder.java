@@ -1,5 +1,6 @@
 package ua.in.pisni.ui.categories.list.view_holder;
 
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,11 @@ public class CategorySongsViewHolder extends RecyclerView.ViewHolder {
     public void bind(Song song, CategorySongsAdapter.CategorySongListener listener) {
         binding.title.setText(song.getTitle());
         binding.content.setText(Utils.getFirstTwoRows(song.getText()));
+        if(!TextUtils.isEmpty(song.getAudio_file_name())) {
+            binding.audioExists.setVisibility(View.VISIBLE);
+        } else {
+            binding.audioExists.setVisibility(View.GONE);
+        }
 
         binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override

@@ -6,6 +6,7 @@ public class Song {
     private String title;
     private String text;
     private String author;
+    private String audio_file_name;
 
     public int getId() {
         return id;
@@ -37,5 +38,13 @@ public class Song {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getAudio_file_name() {
+        return audio_file_name;
+    }
+
+    public void setAudio_file_name(String audio_file_name) {
+        this.audio_file_name = audio_file_name;
     }
 }
