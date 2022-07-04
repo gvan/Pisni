@@ -17,7 +17,7 @@ public class SongViewModel extends ViewModel {
     private final MutableLiveData<Song> songLiveData = new MutableLiveData<>();
     private final MutableLiveData<String> shareLiveData = new SingleLiveEvent<>();
     private final MutableLiveData<Boolean> favoriteLiveData = new SingleLiveEvent<>();
-    private final MutableLiveData<Boolean> showPlayAudioLiveData = new SingleLiveEvent<>();
+    private final MutableLiveData<String> showAudioPlayerLiveData = new SingleLiveEvent<>();
     private final MutableLiveData<String> playAudioLiveData = new SingleLiveEvent<>();
 
     private SongsRepository songsRepository;
@@ -36,7 +36,7 @@ public class SongViewModel extends ViewModel {
         favoriteLiveData.setValue(songsPreferences.isFavoriteSong(songId));
 
         if(!TextUtils.isEmpty(song.getAudio_file_name())) {
-            showPlayAudioLiveData.setValue(true);
+            showAudioPlayerLiveData.setValue(song.getAudio_file_name());
         }
     }
 
@@ -90,7 +90,7 @@ public class SongViewModel extends ViewModel {
         return playAudioLiveData;
     }
 
-    public MutableLiveData<Boolean> getShowPlayAudioLiveData() {
-        return showPlayAudioLiveData;
+    public MutableLiveData<String> getShowAudioPlayerLiveData() {
+        return showAudioPlayerLiveData;
     }
 }
