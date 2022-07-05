@@ -71,7 +71,7 @@ public class CategoriesFragment extends BaseFragment {
                 new CategoriesAdapter.CategoryListener() {
                     @Override
                     public void onCategoryClick(Category category) {
-                        openCategory(category.getId(), category.getTitle());
+                        viewModel.onCategoryClicked(category);
                     }
 
                     @Override
@@ -129,14 +129,14 @@ public class CategoriesFragment extends BaseFragment {
             }
         });
 
-    }
+        viewModel.getOpenCategoryLiveData().observe(getViewLifecycleOwner(), new Observer<Bundle>() {
+            @Override
+            public void onChanged(Bundle bundle) {
+                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                        .navigate(R.id.action_categoriesFragment_to_songsFragment, bundle);
+            }
+        });
 
-    private void openCategory(String categoryId, String title) {
-        Bundle arguments = new Bundle();
-        arguments.putString(Const.CATEGORY_ID, categoryId);
-        arguments.putString(Const.TITLE, title);
-        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
-                .navigate(R.id.action_categoriesFragment_to_songsFragment, arguments);
     }
 
     private void openSong(Song song) {

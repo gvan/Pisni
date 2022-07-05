@@ -48,8 +48,10 @@ public class SongsFragment extends BaseFragment {
 
     private void parseArguments() {
         if(getArguments() != null) {
+            String chapterId = getArguments().getString(Const.CHAPTER_ID, "");
             String categoryId = getArguments().getString(Const.CATEGORY_ID, "");
             String title = getArguments().getString(Const.TITLE, "");
+            viewModel.setChapterId(chapterId);
             viewModel.setCategoryId(categoryId);
             viewModel.setTitle(title);
         }
@@ -62,7 +64,6 @@ public class SongsFragment extends BaseFragment {
                 Navigation.findNavController(requireActivity(), R.id.nav_host_fragment).navigateUp();
             }
         });
-
         binding.bottomBar.setHomeSelected();
 
         binding.recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -79,6 +80,23 @@ public class SongsFragment extends BaseFragment {
     }
 
     private void setupViewModel(){
+
+        viewModel.getChapterIdLiveData().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                switch (s) {
+                    case Const.CATEGORIES_CHAPTER: {
+                        binding.bottomBar.setHomeSelected();
+                        break;
+                    }
+                    case Const.AUTHORS_CHAPTER:{
+                        binding.bottomBar.setAuthorsSelected();
+                        break;
+                    }
+                }
+            }
+        });
+
         viewModel.getSongsLiveData().observe(getViewLifecycleOwner(), new Observer<List<Song>>() {
             @Override
             public void onChanged(List<Song> songs) {

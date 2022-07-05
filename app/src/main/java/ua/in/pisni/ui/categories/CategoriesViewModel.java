@@ -1,5 +1,6 @@
 package ua.in.pisni.ui.categories;
 
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.core.util.Pair;
@@ -25,6 +26,7 @@ public class CategoriesViewModel extends ViewModel {
     private final MutableLiveData<List<Category>> categoriesLiveData = new MutableLiveData<>();
     private final MutableLiveData<Map<String, Pair<Integer, Integer>>> songsOffsetsLiveData = new MutableLiveData<>();
     private final MutableLiveData<String> chapterIdLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Bundle> openCategoryLiveData = new SingleLiveEvent<>();
 
     private String chapterId = "";
 
@@ -52,6 +54,14 @@ public class CategoriesViewModel extends ViewModel {
         chapterIdLiveData.setValue(chapterId);
     }
 
+    public void onCategoryClicked(Category category) {
+        Bundle arguments = new Bundle();
+        arguments.putString(Const.CHAPTER_ID, chapterId);
+        arguments.putString(Const.CATEGORY_ID, category.getId());
+        arguments.putString(Const.TITLE, category.getTitle());
+        openCategoryLiveData.setValue(arguments);
+    }
+
     public void setPoemsOffsets(String categoryId, Pair<Integer, Integer> offset) {
         songsOffsets.put(categoryId, offset);
     }
@@ -66,5 +76,9 @@ public class CategoriesViewModel extends ViewModel {
 
     public MutableLiveData<String> getChapterIdLiveData() {
         return chapterIdLiveData;
+    }
+
+    public MutableLiveData<Bundle> getOpenCategoryLiveData() {
+        return openCategoryLiveData;
     }
 }
